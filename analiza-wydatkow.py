@@ -92,6 +92,24 @@ def add(amount, desc):
     save_expenses(expenses)
     print("Sukces!")
 
+@cli.command()
+@click.argument("expense_id", type=int)
+def remove(expense_id):
+    expenses = load_or_init()
+    index_to_remove = None
+
+    for i, expense in enumerate(expenses):
+        if expense.id == expense_id:
+            index_to_remove = i
+            break
+
+    if index_to_remove is not None:
+        removed_expense = expenses.pop(index_to_remove)
+        save_expenses(expenses)
+        print(f"Usunięto wydatek: {removed_expense.description}")
+    else:
+        print(f"Nie znaleziono wydatku o ID {expense_id}")
+
 
 @cli.command()
 @click.argument("csv_file")
